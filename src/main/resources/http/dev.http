@@ -1,0 +1,92 @@
+### The first 3 dont work.
+### Create a new user - this one will only get a USER role by default
+POST {{url}}/auth/register/
+
+{
+    "username": "user",
+    "password": "test123"
+}
+
+### Login
+POST {{url}}/auth/login/
+
+{
+    "username": "user",
+    "password": "test123"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+%}
+
+### Add admin role to user
+POST {{url}}/auth/user/addrole/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+    "role": "ADMIN"
+}
+
+
+
+
+
+### Get all trips
+GET {{url}}/trips/
+Accept: application/json
+
+### Get trip by id
+GET {{url}}/trips/1
+Accept: application/json
+
+### Add trip
+POST {{url}}/trips/
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "starttime": "2024-01-12",
+  "endtime": "2024-01-19",
+  "latitude": 75.34,
+  "longitude": 12.43,
+  "name": "Mountain Adventure",
+  "price": 200.0,
+  "category": "sea"
+}
+
+### Update trip
+PUT {{url}}/trips/1
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "starttime": "2024-01-12",
+  "endtime": "2024-01-19",
+  "latitude": 75.34,
+  "longitude": 12.43,
+  "name": "Updated Mountain Adventure",
+  "price": 250.0,
+  "category": "sea"
+}
+
+### Delete trip
+DELETE {{url}}/trips/1
+Authorization: Bearer {{jwt_token}}
+
+### Add guide to trip
+PUT {{url}}/trips/3/guides/1
+Authorization: Bearer {{jwt_token}}
+
+### Populate trips
+POST {{url}}/trips/populate
+Authorization: Bearer {{jwt_token}}
+
+### Category trips
+GET {{url}}/trips/category/sea
+
+### Get total price of guides
+GET {{url}}/trips/guides/totalprice
+
+### Get total weight of trip
+GET {{url}}/trips/1/totalweight
