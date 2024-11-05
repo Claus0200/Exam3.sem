@@ -71,8 +71,8 @@ class TripRoutesTest {
                 .get(BASE_URL+ "/1")
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(1))
-                .body("name", notNullValue());
+                .body("trip.id", equalTo(1))
+                .body("trip.name", notNullValue());
     }
 
     @Test
