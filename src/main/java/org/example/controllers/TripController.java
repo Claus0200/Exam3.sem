@@ -159,14 +159,12 @@ public class TripController implements IController, ITripController {
 
     @Override
     public void getTotalPriceOfGuides(Context ctx) {
-        Map<Integer, Float> totalPriceOfGuides = dao.getPriceByGuide();
+        List<GuidePriceDTO> totalPriceOfGuides = dao.getPriceByGuide();
         if (totalPriceOfGuides == null) {
             throw new ApiException(404, "No trips found");
         }
-        Set<GuidePriceDTO> guidePriceDTOS = new HashSet<>();
-        totalPriceOfGuides.forEach((g,p) -> guidePriceDTOS.add(new GuidePriceDTO(g,p)));
 
-        ctx.json(guidePriceDTOS).status(200);
+        ctx.json(totalPriceOfGuides).status(200);
     }
 
     @Override
@@ -179,7 +177,7 @@ public class TripController implements IController, ITripController {
     }
 
     @Override
-    public void getTotalPriceOfPacking(Context ctx) {
+    public void getTotalWeightOfPacking(Context ctx) {
         int tripId;
         try {
             tripId = Integer.parseInt(ctx.pathParam("tripId"));

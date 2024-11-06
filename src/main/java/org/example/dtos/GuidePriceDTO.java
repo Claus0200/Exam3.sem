@@ -11,5 +11,5 @@ import lombok.*;
 public class GuidePriceDTO {
 
     private int guideId;
-    private float price;
+    private double price;
 }

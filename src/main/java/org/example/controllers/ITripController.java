@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import io.javalin.http.Context;
+import org.example.dtos.GuidePriceDTO;
 import org.example.dtos.PackagingDTO;
 import org.example.enums.Category;
 import org.jetbrains.annotations.NotNull;
@@ -19,5 +20,5 @@ public interface ITripController {
 
     List<PackagingDTO> getPackaging(Category category);
 
-    void getTotalPriceOfPacking(Context ctx);
+    void getTotalWeightOfPacking(Context ctx);
 }

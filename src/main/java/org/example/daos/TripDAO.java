@@ -3,6 +3,7 @@ package org.example.daos;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import org.example.dtos.GuidePriceDTO;
 import org.example.dtos.TripDTO;
 import org.example.entities.Guide;
 import org.example.entities.Trip;
@@ -155,16 +156,21 @@ public class TripDAO implements iDAO<TripDTO, Integer>, ITripGuideDAO {
     }
 
     @Override
-    public Map<Integer, Float> getPriceByGuide() {
+    public List<GuidePriceDTO> getPriceByGuide() {
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<Trip> query = em.createQuery("SELECT d FROM Trip d", Trip.class);
             List<Trip> trips = query.getResultList();
             if (trips.isEmpty()) {
                 return null;
             }
+
             else {
                 return trips.stream()
-                        .collect(Collectors.toMap(Trip::getId, Trip::getPrice));
+                        .filter(trip -> trip.getGuide() != null)
+                        .collect(Collectors.groupingBy(trip -> trip.getGuide().getId(), Collectors.summingDouble(trip -> trip.getPrice())))
+                        .entrySet().stream()
+                        .map(trip -> new GuidePriceDTO(trip.getKey(), trip.getValue()))
+                        .toList();
             }
         }
     }

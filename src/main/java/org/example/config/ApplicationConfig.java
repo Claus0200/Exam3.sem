@@ -10,6 +10,8 @@ import org.example.security.controllers.AccessController;
 import org.example.security.routes.SecurityRoutes;
 import org.example.utils.Utils;
 
+import java.time.LocalDateTime;
+
 public class ApplicationConfig {
 
     private static Routes routes = new Routes();
@@ -31,6 +33,7 @@ public class ApplicationConfig {
 
         app.beforeMatched(ctx -> accessController.accessHandler(ctx));
         app.exception(ApiException.class, ApplicationConfig::apiExceptionHandler);
+        app.exception(Exception.class, ApplicationConfig::generalExceptionHandler);
 
         app.start(port);
         return app;
@@ -38,6 +41,10 @@ public class ApplicationConfig {
 
     public static void stopServer(Javalin app) {
         app.stop();
+    }
+
+    private static void generalExceptionHandler(Exception e, Context ctx) {
+        ctx.json(Utils.convertToJsonMessage(500, e.getMessage(), LocalDateTime.now()));
     }
 
     public static void apiExceptionHandler(ApiException e, Context ctx) {

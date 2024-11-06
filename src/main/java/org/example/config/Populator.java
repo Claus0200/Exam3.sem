@@ -27,6 +27,7 @@ public class Populator {
         trip1.setGuide(guide1);
         trip2.setGuide(guide2);
         trip3.setGuide(guide3);
+        trip4.setGuide(guide1);
         /*trip4.setGuide(guide1);
         trip5.setGuide(guide2);*/
 

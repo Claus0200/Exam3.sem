@@ -18,14 +18,14 @@ public class TripRoutes {
         return () -> {
             get("/", controller::readAll, Role.ANYONE);
             get("/{id}", controller::read, Role.ANYONE);
-            post("/", controller::create);
-            put("/{id}", controller::update);
-            delete("/{id}", controller::delete);
-            put("/{tripId}/guides/{guideId}", controller::addGuideToTrip);
-            post("/populate", controller::populate);
+            post("/", controller::create, Role.ADMIN);
+            put("/{id}", controller::update, Role.ADMIN);
+            delete("/{id}", controller::delete, Role.ADMIN);
+            put("/{tripId}/guides/{guideId}", controller::addGuideToTrip, Role.ADMIN);
+            post("/populate", controller::populate, Role.ADMIN);
             get("/category/{category}", controller::sortByCategory, Role.ANYONE);
             get("/guides/totalprice", controller::getTotalPriceOfGuides, Role.ANYONE);
-            get("/{tripId}/totalweight", controller::getTotalPriceOfPacking, Role.ANYONE);
+            get("/{tripId}/totalweight", controller::getTotalWeightOfPacking, Role.ANYONE);
         };
     }
 }
